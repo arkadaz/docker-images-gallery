@@ -1,10 +1,27 @@
 version: '3'
 services:
   frontend:
+    # restart service when service fail
+    restart: always
+    # build Dockerfile in folder /frontend
     build: ./frontend
+    # map port local port:container port
     ports:
       - '3000:3000'
+    volumes:
+    # 1. A volume dedicated to node modules.
+      - /app/node_modules
+    # 2. Map folder ./frontend from local to /app in container
+      - ./frontend:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
   api:
+    # restart service when service fail
+    restart: always
+    # build Dockerfile in folder /api
     build: ./api
+    # map port local port:container port
     ports:
       - '5050:5050'
+    volumes:
+      - ./api:/app
